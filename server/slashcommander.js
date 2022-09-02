@@ -9,10 +9,7 @@ exports.slashcommander = {
 	init: async function(c, scripts, token){
 		client = c;
 		discordtoken = token;
-		eventtypesinfo = scripts.infomaps.gamesinfo;
-		gamesinfo = scripts.infomaps.gamesinfo;
 		guild = client.guilds.cache.find(g => g.name === scripts.guildname);
-		platformsinfo = scripts.infomaps.platformsinfo;
 		ranksinfo = scripts.infomaps.ranksinfo;
 		query = scripts.sql.query;
 		util = scripts.util;

@@ -1,5 +1,3 @@
-const { f } = require("../botresponses/usercommands/updatememberdata");
-
 var client, gamesinfo, guild, platformsinfo, query, ranksinfo, util, self;
 
 exports.i = {
@@ -21,6 +19,12 @@ exports.i = {
                     type: 3,
                     required: true,
                 },
+                {
+                    name: `active`,
+                    description: `is ban active`,
+                    type: 5,
+                    required: true,
+                },
             ],
         },
     ],
@@ -39,7 +43,7 @@ exports.i = {
         console.log(JSON.stringify(options));
         await self.f.respond(interaction, user, options);
         if (options.bans) {
-            await self.f.banlookup(interaction, user, options, options.name);
+            await self.f.banlookup(interaction, user, options, options.name, options.active);
         }
     },
     autocomplete: async (interaction, field) => {
@@ -48,20 +52,29 @@ exports.i = {
     f: {
         respond: async (interaction, user, options) => {
         },
-        banlookup: async (interaction, user, options, name) => {
-            let issuerdata = await util.getHostFromDiscordUUID(user.id, query);
-
+        banlookup: async (interaction, user, options, name, active) => {
             let bandata = await new Promise(async (resolve, reject) => {
-                query(`SELECT * FROM \`ban-timeouts\` WHERE \`member\` LIKE "%${name}%" AND \`issuerid\` = '${issuerdata.id}' AND \`revoked\` = 0 LIMIT 5`, (error, results, fields) => {
-                    if (error) {
-                        console.log(error);
-                    }
-                    resolve(results);
-                });
+                if (active) {
+                    query(`SELECT * FROM \`ban-timeouts\` WHERE \`member\` LIKE "%${name}%" AND \`revoked\` = 0 AND \`expired\` = 0 LIMIT 5`, (error, results, fields) => {
+                        if (error) {
+                            console.log(error);
+                        }
+                        resolve(results);
+                    });
+                } else {
+                    query(`SELECT * FROM \`ban-timeouts\` WHERE \`member\` LIKE "%${name}%" LIMIT 5`, (error, results, fields) => {
+                        if (error) {
+                            console.log(error);
+                        }
+                        resolve(results);
+                    });
+                }
+
             });
 
             if (bandata.length > 0) {
                 let i = 1;
+                let first = true;
                 for (let row of bandata) {
                     let issuer = await util.getHost(row.issuerid, query);
                     let s = `Member: <@${row.discorduid}>\nReason: ${row.reason}\nIssuer: <@${issuer.discorduid}>\nExprires: <t:${new Date(row.expires / 1000).getTime()}:f>`;
@@ -91,7 +104,12 @@ exports.i = {
                         fetchReply: true,
                     };
 
-                    let msg = await interaction.reply(message);
+                    let msg;
+                    if (first) {
+                        msg = await interaction.reply(message);
+                    }else{
+                        msg = await interaction.followUp(message);
+                    }
                     const filter = (interaction) => interaction.customId === 'revoke';
                     let collector = await msg.createMessageComponentCollector({ filter, time: 15_000, max: 1 });
                     collector.on(`collect`, async (interaction) => {
@@ -102,10 +120,10 @@ exports.i = {
 
                     collector.on(`end`, async (collected) => {
                         msg.edit({ components: [] });
-                        console.log(`END`);
                     });
 
                     i++;
+                    first = false;
                 }
             } else {
                 let embed = [{

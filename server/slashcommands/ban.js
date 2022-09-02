@@ -1,4 +1,3 @@
-const { f } = require("../botresponses/usercommands/updatememberdata");
 
 var client, gamesinfo, guild, platformsinfo, query, ranksinfo, util, self;
 
@@ -110,7 +109,7 @@ exports.i = {
             }
 
             //check if issuers mgmt is higher then target
-            if (issuerdata.mgmt <= memberdata.mgmt) {
+            /*if (issuerdata.mgmt <= memberdata.mgmt) {
                 let embed = [{
                     color: `#37a0dc`,
                     description: `You cannot ban your superiors or those at the same ranks as you.`,
@@ -123,6 +122,7 @@ exports.i = {
                 interaction.reply(message);
                 return;
             }
+            */
 
 
             let v = ``;
@@ -195,7 +195,7 @@ exports.i = {
             };
 
             //send ban message to member
-            discordmember.send(messageToMember);
+            await discordmember.send(messageToMember);
 
 
             // Ban Member

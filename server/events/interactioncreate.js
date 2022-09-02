@@ -16,7 +16,7 @@ exports.i = {
 		client.on(`interactionCreate`, self.event);
 	},
 	event: async (interaction) => {
-		let channelGameId = await self.f.getGameIdForChannel(interaction.channel);
+		//let channelGameId = await self.f.getGameIdForChannel(interaction.channel);
 
 		if (interaction.isAutocomplete()) {
 			let field = interaction.options.getFocused(true);
@@ -48,9 +48,9 @@ exports.i = {
 
 			try {
 				if (command.inputfields === `gameid:platformid`) {
-					command.run(interaction, options, interaction.user, channelGameId, ``);
+					command.run(interaction, options, interaction.user, 0, ``);
 				} else if (command.inputfields === `gameid`) {
-					command.run(interaction, options, interaction.user, channelGameId);
+					command.run(interaction, options, interaction.user, 0);
 				}else{
 					command.run(interaction, options, interaction.user);
 				}

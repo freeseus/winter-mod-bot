@@ -2,8 +2,6 @@ const util = require(`./server/util.js`).util;
 // const discordjs = require(`discord.js`);
 const { Client, Intents } = require(`discord.js`);
 
-const io = require(`socket.io-client`);
-
 const discordconfig = require(`${__dirname}/server/config/config.json`)[`discord`];
 const socketconfig = require(`${__dirname}/server/config/config.json`)[`socket`];
 
@@ -12,19 +10,13 @@ const socketconfig = require(`${__dirname}/server/config/config.json`)[`socket`]
 // 	client: new discordjs.Client(),
 // };
 
-const socket = require(`./server/socket.js`).socket;
 
-const gamesinfo = require(`./server/infomaps/gamesinfo.js`).gamesinfo;
-const platformsinfo = require(`./server/infomaps/platformsinfo.js`).platformsinfo;
 const ranksinfo = require(`./server/infomaps/ranksinfo.js`).ranksinfo;
-const eventtypesinfo = require(`./server/infomaps/eventtypesinfo.js`).eventtypesinfo;
 
 const conn = require(`./server/db/connection.js`).conn;
 const query = require(`./server/db/query.js`).query;
 
-const responses = require(`./server/botresponses/responses.js`).responses;
 const operator = require(`./server/operator.js`).operator;
-const voicemonitors = require(`./server/voicemonitor.js`).m;
 const slashcommander = require(`./server/slashcommander.js`).slashcommander;
 
 const myArgs = process.argv.slice(2);
@@ -78,10 +70,7 @@ const scripts = {
 	testmode: testserver,
 	debugMode: debugMode,
 	infomaps: {
-		gamesinfo: gamesinfo,
-		platformsinfo: platformsinfo,
 		ranksinfo: ranksinfo,
-		eventtypesinfo: eventtypesinfo
 	}
 };
 
@@ -119,8 +108,6 @@ const interactions = {
 	await interactions.databaseConnect();
 
 	// getting database info
-	await gamesinfo.init(scripts);
-	await platformsinfo.init(scripts);
 	await ranksinfo.init(scripts);
 
 	// bot configuration processes
