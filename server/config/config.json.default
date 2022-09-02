@@ -1,0 +1,21 @@
+{
+  "discord": {
+    "token": "",
+    "winterclantoken": "",
+    "testservertoken": "",
+    "guildname": ""
+  },
+  "database": {
+    "database_schema": "",
+    "database_host": "",
+    "database_port": "",
+    "database_user": "",
+    "database_pass": ""
+  },
+  "socket": {
+    "path": "",
+    "debugPath": "",
+    "debugLocalPath": "",
+    "identity": ""
+  }
+}
