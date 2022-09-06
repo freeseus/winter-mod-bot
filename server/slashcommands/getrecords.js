@@ -26,7 +26,7 @@ exports.i = {
                     required: true,
                 },
             ],
-        },
+        }
     ],
     init: async function (c, scripts) {
         client = c;

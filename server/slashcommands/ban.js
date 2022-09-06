@@ -94,7 +94,7 @@ exports.i = {
             });
 
             // Check if issuer is legate or above if else send message and return.
-            if (issuerdata.mgmt <= 4 && !issuerpermissiondata.permissions.includes(`ban`)) {
+            if (issuerdata.mgmt <= 4 && !issuerpermissiondata.permissions.includes(`ban`) && !issuerpermissiondata.permissions.includes(`admin`)) {
                 let embed = [{
                     color: `#37a0dc`,
                     description: `You have to be a Legate or above to use this command.`,
@@ -109,7 +109,7 @@ exports.i = {
             }
 
             //check if issuers mgmt is higher then target
-            /*if (issuerdata.mgmt <= memberdata.mgmt) {
+            if (issuerdata.mgmt <= memberdata.mgmt) {
                 let embed = [{
                     color: `#37a0dc`,
                     description: `You cannot ban your superiors or those at the same ranks as you.`,
@@ -122,7 +122,7 @@ exports.i = {
                 interaction.reply(message);
                 return;
             }
-            */
+            
 
 
             let v = ``;
@@ -216,9 +216,8 @@ exports.i = {
             let months6 = { name: `6 Months`, value: `DATE_ADD(NOW(), INTERVAL 6 MONTH)` };
             let months9 = { name: `9 Months`, value: `DATE_ADD(NOW(), INTERVAL 9 MONTH)` };
             let year1 = { name: `1 Year`, value: `DATE_ADD(NOW(), INTERVAL 1 YEAR)` };
-            let years20 = { name: `20 Years`, value: `DATE_ADD(NOW(), INTERVAL 20 YEAR)` };
             let permanent = { name: `Permanent`, value: `permanent` };
-            let periods = [months3, months6, months9, year1, years20, permanent];
+            let periods = [months3, months6, months9, year1, permanent];
             return periods;
         },
         getBanReasonSuggestions: function(current) {
