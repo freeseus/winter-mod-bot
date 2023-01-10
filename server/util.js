@@ -1,8 +1,6 @@
-const {MessageEmbed} = require(`discord.js`);
-
 var c = {
 	color: {
-		accent: `#37a0dc`
+		accent: 0x37a0dc
 	},
 	array: {
 		removeItem: function (item, array) {
@@ -151,21 +149,22 @@ var c = {
 			};
 		}
 	
-		if (obj.description) {
-			obj.text = obj.description;
-		}
-
-		let o = new MessageEmbed()
-			.setTitle(obj.title || ``)
-			// .setAuthor(obj.author || ``)
-			// .addField(obj.field || ``);
-			.setThumbnail(obj.thumbnail || ``)
-			.setColor(0x37a0dc)
-			.setDescription(obj.text || ``)
-			.setImage(obj.img || ``)
-			.setFooter({text: obj.footer || ``});
-	
+		let o = {
+			color: obj.color || util.color.accent,
+		};
+		
+		obj.title ? o.title = obj.title : 0;
+		(obj.author && obj.author.name) ? o.author = {name: obj.author.name} : 0;
+		(obj.author && !obj.author.name && obj.author.iconURL) ? o.author = {iconURL: obj.author.iconURL} : 0;
+		(obj.author && obj.author.name && obj.author.iconURL) ? o.author.iconURL = obj.author.iconURL : 0;
+		obj.thumbnail ? o.thumbnail = {url: obj.thumbnail} : 0;
+		(obj.text || obj.description) ? o.description = (obj.text || obj.description) : 0;
+		obj.img ? o.image = {url: obj.img} : 0;
+		obj.footer ? o.footer = {text: obj.footer} : 0;
+		(obj.footer && obj.footerImage) ? o.footer.iconURL = obj.footerImage : 0;
+		(!obj.footer && obj.footerImage) ? o.footer = {iconURL: obj.footerImage} : 0;
 		obj.fields ? o.fields = obj.fields : 0;
+	
 		return o;
 	},
 	getHostName: async function (id, scripts) {
