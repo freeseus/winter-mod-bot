@@ -1,5 +1,5 @@
 const util = require(`./server/util.js`).util;
-const {Client, GatewayIntentBits} = discordjs;
+const {Client} = require(`discord.js`);
 
 const discordconfig = require(`${__dirname}/server/config/config.json`)[`discord`];
 const socketconfig = require(`${__dirname}/server/config/config.json`)[`socket`];
