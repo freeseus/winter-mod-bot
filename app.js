@@ -35,20 +35,8 @@ if (testserver) {
 const discord = {
 	token: testserver ? discordconfig[`testservertoken`] : discordconfig[`winterclantoken`],
 	client: new Client({
-		intents: [
-			GatewayIntentBits.Guilds,
-			GatewayIntentBits.GuildMembers,
-			GatewayIntentBits.GuildEmojisAndStickers,
-			GatewayIntentBits.GuildBans,
-			GatewayIntentBits.GuildIntegrations,
-			GatewayIntentBits.GuildWebhooks,
-			GatewayIntentBits.GuildInvites,
-			GatewayIntentBits.GuildVoiceStates,
-			GatewayIntentBits.GuildPresences,
-			GatewayIntentBits.GuildMessages,
-			GatewayIntentBits.GuildMessageReactions,
-			GatewayIntentBits.DirectMessages,
-		]
+		intents: 3276799,
+		partials: [0, 1, 2, 3, 4, 5, 6],
 	}),
 };
 
